@@ -1,6 +1,6 @@
 import React from "react";
 import { RenderLeafProps } from "slate-react";
-import { getToggleMarkValueCommands} from "../../core";
+import { getToggleMarkValueCommands } from "../../core";
 import { EtalsPlugin, PluginAction } from "../../types";
 
 export const MARK_SUB_SUPERSCRIPT = "subsuperscript";
@@ -26,10 +26,12 @@ export const superscriptAction: PluginAction = {
 
 const subSuperscriptRenderLeaf = (props: RenderLeafProps) => {
   const val = props.leaf[MARK_SUB_SUPERSCRIPT];
-  return (
+  return val ? (
     <span {...props.attributes} style={{ verticalAlign: val }}>
       {props.children}
     </span>
+  ) : (
+    props.children
   );
 };
 

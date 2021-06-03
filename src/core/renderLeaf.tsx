@@ -1,6 +1,12 @@
 import React, { CSSProperties } from "react";
 import { RenderLeafProps } from "slate-react";
-import { EtalsTextKeys, EtalsPlugin, EtalsText, RenderLeaf, TText } from "../types";
+import {
+  EtalsTextKeys,
+  EtalsPlugin,
+  EtalsText,
+  RenderLeaf,
+  TText,
+} from "../types";
 
 /*
 MainRenderLeaf
@@ -15,7 +21,7 @@ export const getRenderLeaf = (plugins: EtalsPlugin[]) => {
         children: children,
       };
     }, props);
-    return <>{leafed.children}</>;
+    return leafed.children;
   };
 };
 
