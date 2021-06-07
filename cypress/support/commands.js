@@ -69,4 +69,3 @@
 //   document.getSelection().removeAllRanges();
 //   document.getSelection().setBaseAndExtent(...args);
 // }
-//import "cypress-keyboard-plugin";

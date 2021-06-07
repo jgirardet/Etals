@@ -67,13 +67,19 @@ describe("test show marks", () => {
 describe("test keymap", () => {
   beforeEach(() => {
     mount(
-      <Etals initialValue={[{ children: [{ text: "aa" }] }] as Descendant[]} />
+      <Etals
+        initialValue={
+          [{ type: "paragraph", children: [{ text: "aa" }] }] as Descendant[]
+        }
+      />
     );
   });
 
   const test_click = (key: string, css: string[]) => {
     return cy
       .get(".etals")
+      .children()
+      .first()
       .click()
       .type("{selectAll}" + key, { delay: 100 })
       .find('[data-slate-leaf="true"]')
@@ -98,5 +104,8 @@ describe("test keymap", () => {
   });
   it("key superscript", () => {
     test_click("{ctrl+d}", ["verticalAlign", "super"]);
+  });
+  it.only("key set Fontsize", () => {
+    test_click("{ctrl+n}", ["fontSize", "30em"]);
   });
 });

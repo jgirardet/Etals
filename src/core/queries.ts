@@ -1,5 +1,6 @@
 import { Editor } from "slate";
 import { EtalsTextKeys } from "../types";
+import { Node, Element } from "slate";
 
 // export const isMarkActive = (editor: Editor, type: EtalsTextKeys): boolean => {
 //   const marks = Editor.marks(editor);

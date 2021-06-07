@@ -1,6 +1,7 @@
-import { Editor } from "slate";
-import { RenderLeafProps } from "slate-react";
-import { EtalsTextKeys } from "./customs";
+import { BaseElement, Editor } from "slate";
+import { RenderElementProps, RenderLeafProps } from "slate-react";
+import { EtalsTextKeys, TText } from "./customs";
+import React from "react";
 
 export interface Action {
   name: ActionName;
@@ -18,13 +19,20 @@ export interface CommandParams {
   editor: Editor;
   options?: any;
 }
-//export type EditorPlugin = <T extends Editor>(editor: T) => T;
+
+export interface EtalsElement {
+  type: string;
+  children: TText[];
+}
 
 export interface EtalsPlugin {
   key: EtalsTextKeys;
   renderLeaf?: RenderLeaf;
   actions?: PluginAction[];
 }
+
+export type Formats = Record<string, React.CSSProperties>;
+
 export type Hotkey = string;
 
 export type EditorPlugin = <T extends Editor>(editor: T) => T;
@@ -45,3 +53,4 @@ export interface PluginHotkey {
 }
 
 export type RenderLeaf = (props: RenderLeafProps) => JSX.Element;
+export type RenderElement = (props: RenderElementProps) => JSX.Element;

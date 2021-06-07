@@ -7,14 +7,20 @@ import {
   getHandleKeyDown,
   getRenderLeaf,
   mixEditor,
+  getRenderElement,
 } from "../core";
+import { etalsHeading, etalsParagraph } from "../elements";
 import {
   etalsBold,
   etalsItalic,
   etalsUnderline,
   etalsStrikethrough,
   etalsSubSuperscript,
+  etalsFontSize,
 } from "../marks";
+import { EtalsElementPlugin } from "../types";
+import { defaultFormats } from "../defaults";
+import "../assets/reset-editor-css.css";
 
 const editor = mixEditor([withReact, withHistory]);
 const plugins = [
@@ -23,8 +29,15 @@ const plugins = [
   etalsUnderline,
   etalsStrikethrough,
   etalsSubSuperscript,
+  etalsFontSize,
 ];
-const RenderLeaf = getRenderLeaf(plugins);
+
+const elementPlugins: EtalsElementPlugin[] = [
+  etalsParagraph(defaultFormats),
+  etalsHeading(defaultFormats),
+];
+const MainRenderLeaf = getRenderLeaf(plugins);
+const MainRenderElement = getRenderElement(elementPlugins, defaultFormats);
 const layouts = getLayouts(plugins);
 const handleKeyDown = getHandleKeyDown(layouts, "bepo");
 
@@ -41,7 +54,12 @@ export const Etals = ({ initialValue }: EtalsPros): JSX.Element => {
   return (
     <div className="etals">
       <Slate editor={editor} onChange={onChange} value={value}>
-        <Editable renderLeaf={RenderLeaf} onKeyDown={onKeyDown} />
+        <Editable
+          className="editable-area"
+          renderLeaf={MainRenderLeaf}
+          renderElement={MainRenderElement}
+          onKeyDown={onKeyDown}
+        />
       </Slate>
     </div>
   );

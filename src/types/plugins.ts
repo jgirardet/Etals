@@ -1,12 +1,4 @@
-import { Editor } from "slate";
-import {
-  Action,
-  Command,
-  Hotkey,
-  Layout,
-  LayoutName,
-  RenderLeaf,
-} from "./core";
+import { Action, Hotkey, LayoutName, RenderLeaf, RenderElement } from "./core";
 import { EtalsTextKeys } from "./customs";
 
 export interface EtalsPlugin {
@@ -15,6 +7,11 @@ export interface EtalsPlugin {
   actions?: PluginAction[];
 }
 
+export interface EtalsElementPlugin {
+  type: string;
+  renderElement: RenderElement;
+  actions?: PluginAction[];
+}
 
 export interface PluginHotkey {
   layout: LayoutName;

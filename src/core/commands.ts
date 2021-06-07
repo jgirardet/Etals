@@ -1,5 +1,7 @@
-import { toggleMark } from ".";
+import { getElement, toggleMark } from ".";
 import { Command, CommandParams, EtalsTextKeys } from "../types";
+import { ReactEditor } from "slate-react";
+import { hasMarkValue } from "./queries";
 
 /*
 getToggleMarkCommand
@@ -22,3 +24,13 @@ export const getToggleMarkValueCommands = (
   values.map((val) => ({ editor }: CommandParams) => {
     toggleMark(editor, mark, val);
   });
+
+// /*
+// getToggleMarkValueCommandsWithOptions
+// Given an array of string and a key, return every possible toggleMark command
+// */
+// export const getToggleMarkValueCommandsWithOptions =
+//   (mark: EtalsTextKeys, options: string[]): Command =>
+//   ({ editor, options }: CommandParams) => {
+//     toggleMark(editor, mark, val);
+//   };

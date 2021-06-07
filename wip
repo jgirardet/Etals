@@ -1,0 +1,8 @@
+tester setCommand with mocha
+
+donner un default fontsize à l'editeur genre set marks au début
+mais récupérer la valeur de base du paragraphe
+autoappliquer les styles du paragraphes au text ?
+
+creer get fontsize
+créer increaseCommand

@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "types": [
+      "vite/client",
+      "mocha"
+    ],
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": false,
@@ -16,5 +23,8 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["./src", "cypress/support/*"]
+  "include": [
+    "./src",
+    "cypress/support/*"
+  ]
 }
