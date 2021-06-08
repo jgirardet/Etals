@@ -1,7 +1,37 @@
-import isHotkey from "is-hotkey";
-import { KeyboardEvent } from "react";
+import React, { KeyboardEvent } from "react";
 import { Editor } from "slate";
 import { EtalsPlugin, Layout, LayoutName, Layouts } from "../types";
+
+const IS_MAC =
+  typeof window != "undefined" &&
+  /Mac|iPod|iPhone|iPad/.test(window.navigator.platform);
+
+const getCheckHotkey = () => {
+  const mod = IS_MAC ? "metaKey" : "ctrlKey";
+  return (key: string, event: React.KeyboardEvent) => {
+    return (
+      event.altKey === key.includes("alt") &&
+      event[mod] === key.includes("mod") &&
+      event.key === key[key.length - 1]
+    );
+  };
+};
+
+/*
+checkHotkey
+check hotkey by key (caseSensitive) evalutating alt and ctrl (meta en mac)
+use "mod" to handle ctrl or meta.
+Evaluated key should always be the LAST character of the string
+ex: 
+checkHotkey("mod+a") => ctrl + a
+checkHotkey("mod+A") => ctrl + maj + a
+checkHotkey("mod+alt+A") => ctrl+ alt + maj + a
+checkHotkey("a") => a
+checkHotkey("mod+") => ctrl + +
+checkHotkey("mod++") => ctrl + +
+checkHotkey("mod+b+") => ctrl + +
+*/
+export const checkHotkey = getCheckHotkey();
 
 /*
 isKbdKey
@@ -12,9 +42,7 @@ export const isKbdKey = (
   event: KeyboardEvent,
   options = { block: true }
 ): boolean => {
-  if (
-    isHotkey(seq, { byKey: true })(event as unknown as globalThis.KeyboardEvent)
-  ) {
+  if (checkHotkey(seq, event)) {
     options && options.block && event.preventDefault();
     return true;
   }
@@ -27,9 +55,8 @@ Given layouts and selected, return Editor's handleKeyDown handler
 */
 export const getHandleKeyDown = (layouts: Layouts, selected: LayoutName) => {
   const layout = { ...layouts["base"], ...layouts[selected] };
-  console.log(layout);
-
   return (editor: Editor, event: KeyboardEvent) => {
+    console.log(event.key);
     Object.entries(layout).forEach(([hotkey, action]) => {
       if (isKbdKey(hotkey, event)) action.command({ editor, options: event });
     });

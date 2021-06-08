@@ -17,6 +17,7 @@ import {
   etalsStrikethrough,
   etalsSubSuperscript,
   etalsFontSize,
+  etalsColor,
 } from "../marks";
 import { EtalsElementPlugin } from "../types";
 import { defaultFormats } from "../defaults";
@@ -30,6 +31,7 @@ const plugins = [
   etalsStrikethrough,
   etalsSubSuperscript,
   etalsFontSize,
+  etalsColor,
 ];
 
 const elementPlugins: EtalsElementPlugin[] = [
@@ -39,7 +41,7 @@ const elementPlugins: EtalsElementPlugin[] = [
 const MainRenderLeaf = getRenderLeaf(plugins);
 const MainRenderElement = getRenderElement(elementPlugins, defaultFormats);
 const layouts = getLayouts(plugins);
-const handleKeyDown = getHandleKeyDown(layouts, "bepo");
+const handleKeyDown = getHandleKeyDown(layouts, "bépo");
 
 export interface EtalsPros {
   initialValue?: Descendant[];

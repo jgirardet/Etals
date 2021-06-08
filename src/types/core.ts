@@ -28,7 +28,7 @@ export interface EtalsElement {
 export interface EtalsPlugin {
   key: EtalsTextKeys;
   renderLeaf?: RenderLeaf;
-  actions?: PluginAction[];
+  actions: PluginAction[];
 }
 
 export type Formats = Record<string, React.CSSProperties>;

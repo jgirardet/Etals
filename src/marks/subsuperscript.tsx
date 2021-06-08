@@ -1,7 +1,7 @@
 import React from "react";
 import { RenderLeafProps } from "slate-react";
-import { getElement, getToggleMarkValueCommands } from "../../core";
-import { EtalsPlugin, PluginAction } from "../../types";
+import { getToggleMarkValueCommands } from "../core";
+import { EtalsPlugin, PluginAction } from "../types";
 import { Node } from "slate";
 
 export const MARK_SUB_SUPERSCRIPT = "subsuperscript";

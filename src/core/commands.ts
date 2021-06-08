@@ -25,6 +25,16 @@ export const getToggleMarkValueCommands = (
     toggleMark(editor, mark, val);
   });
 
+/*
+getSetMarkValueCommands
+get the command for valued marks
+*/
+export const getSetMarkValueCommand =
+  (mark: EtalsTextKeys, value: any): Command =>
+  ({ editor }: CommandParams) => {
+    toggleMark(editor, mark, value);
+  };
+
 // /*
 // getToggleMarkValueCommandsWithOptions
 // Given an array of string and a key, return every possible toggleMark command

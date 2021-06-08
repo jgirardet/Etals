@@ -1,4 +1,4 @@
-import { styleMarkFactoryPlugin } from "../../core";
+import { styleMarkFactoryPlugin } from "../core";
 
 export const MARK_BOLD = "bold";
 

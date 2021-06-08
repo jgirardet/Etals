@@ -35,3 +35,21 @@ export const getStyleMarkRenderLeaf =
     }
     return children;
   };
+
+/*
+getValueMarkRenderLeaf
+Leaf Factory which only update `style` attribute with mark value
+*/
+export const getValueMarkRenderLeaf =
+  (mark: EtalsTextKeys, style?: keyof React.CSSProperties) =>
+  (props: RenderLeafProps) => {
+    const cssstyle = style ?? mark;
+    const val = props.leaf[mark];
+    return val ? (
+      <span {...props.attributes} style={{ [cssstyle]: val }}>
+        {props.children}
+      </span>
+    ) : (
+      props.children
+    );
+  };

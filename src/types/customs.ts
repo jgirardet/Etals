@@ -14,6 +14,7 @@ import {
   UnderlineText,
   SubSuperscriptText,
   FontSizeText,
+  ColorText,
 } from "../marks";
 
 export type TEDITOR = BaseEditor & ReactEditor & HistoryEditor;
@@ -25,7 +26,8 @@ export type EtalsText = BoldText &
   UnderlineText &
   StrikethroughText &
   SubSuperscriptText &
-  FontSizeText;
+  FontSizeText &
+  ColorText
 
 export type EtalsTextKeys = keyof EtalsText;
 export type EtalsElementTypes = ParagraphType | HeadingType;
