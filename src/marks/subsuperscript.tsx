@@ -1,13 +1,14 @@
 import React from "react";
-import { RenderLeafProps } from "slate-react";
 import { getToggleMarkValueCommands } from "../core";
 import {
   Config,
+  EtalsMarkPluginContent,
   EtalsPlugin,
-  EtalsPluginContent,
   PluginAction,
+  RenderLeaf,
 } from "../types";
-import { Node } from "slate";
+
+//------------------------- types -------------------------//
 
 export const MARK_SUB_SUPERSCRIPT = "subsuperscript";
 
@@ -15,22 +16,22 @@ export type SubSuperscriptText = {
   [MARK_SUB_SUPERSCRIPT]: "sub" | "super";
 };
 
-export const [subscriptCommand, superscriptCommand] =
-  getToggleMarkValueCommands(MARK_SUB_SUPERSCRIPT, ["sub", "super"]);
+//------------------------- plugin -------------------------//
 
-export const subscriptAction: PluginAction = {
-  name: "subscript",
-  command: subscriptCommand,
-  hotkeys: [{ layout: "base", hotkey: "mod+o" }],
+export const etalsSubSuperscript: EtalsPlugin = (
+  _config: Config
+): EtalsMarkPluginContent => {
+  return {
+    kind: "mark",
+    key: MARK_SUB_SUPERSCRIPT,
+    render: subSuperscriptRenderLeaf,
+    actions: [subscriptAction, superscriptAction],
+  };
 };
 
-export const superscriptAction: PluginAction = {
-  name: "subperscript",
-  command: superscriptCommand,
-  hotkeys: [{ layout: "base", hotkey: "mod+d" }],
-};
+//------------------------- render -------------------------//
 
-const subSuperscriptRenderLeaf = (props: RenderLeafProps) => {
+const subSuperscriptRenderLeaf: RenderLeaf = (props) => {
   const val = props.leaf[MARK_SUB_SUPERSCRIPT];
   if (val) {
     const style =
@@ -55,10 +56,19 @@ const subSuperscriptRenderLeaf = (props: RenderLeafProps) => {
   } else return props.children;
 };
 
-export const etalsSubSuperscript = (_config: Config): EtalsPluginContent => {
-  return {
-    mark: MARK_SUB_SUPERSCRIPT,
-    renderLeaf: subSuperscriptRenderLeaf,
-    actions: [subscriptAction, superscriptAction],
-  };
+///------------------------- actions/commands -------------------------//
+
+export const [subscriptCommand, superscriptCommand] =
+  getToggleMarkValueCommands(MARK_SUB_SUPERSCRIPT, ["sub", "super"]);
+
+export const subscriptAction: PluginAction = {
+  name: "subscript",
+  command: subscriptCommand,
+  hotkeys: [{ layout: "base", hotkey: "mod+o" }],
+};
+
+export const superscriptAction: PluginAction = {
+  name: "subperscript",
+  command: superscriptCommand,
+  hotkeys: [{ layout: "base", hotkey: "mod+d" }],
 };

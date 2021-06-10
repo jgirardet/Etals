@@ -3,20 +3,29 @@ import {
   Config,
   ConfigurablePluginAction,
   EtalsElement,
+  EtalsElementPluginContent,
+  EtalsPlugin,
 } from "../../types";
 import { Editor, Element, Transforms } from "slate";
 import { getRenderDefault } from "../../core";
+
+//------------------------- types -------------------------//
+
 export const ParagraphName = "paragraph";
+
 export type ParagraphType = typeof ParagraphName;
 
 export interface ParagraphElement extends EtalsElement {
   type: ParagraphType;
 }
 
-export const etalsParagraph = (config: Config) => {
+//------------------------- plugin -------------------------//
+
+export const etalsParagraph: EtalsPlugin = (config: Config) => {
   return {
-    type: ParagraphName,
-    renderElement: getRenderDefault(config.formats),
+    kind: "element",
+    key: ParagraphName,
+    render: getRenderDefault(config.formats),
     actions: [
       addParagraphAfterAction(config),
       addParagraphBeforeAction(config),
@@ -24,9 +33,20 @@ export const etalsParagraph = (config: Config) => {
   };
 };
 
+//------------------------- utils -------------------------//
+
 export const toParagraph = (el: Element): ParagraphElement => {
   return { type: "paragraph", children: el.children };
 };
+
+export const newParagraph = (): ParagraphElement => {
+  return {
+    type: "paragraph",
+    children: [{ text: "" }],
+  };
+};
+
+//------------------------- commands/actions -------------------------//
 
 const addParagraphAfter: Command = ({ editor }) => {
   const sel = editor.selection;
@@ -57,12 +77,5 @@ const addParagraphBeforeAction: ConfigurablePluginAction = (
     name: "addParagraphBefore",
     command: addParagraphBefore,
     hotkeys: [{ layout: "base", hotkey: "shift+Enter" }],
-  };
-};
-
-export const newParagraph = (): ParagraphElement => {
-  return {
-    type: "paragraph",
-    children: [{ text: "" }],
   };
 };

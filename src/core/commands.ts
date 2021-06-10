@@ -1,4 +1,4 @@
-import { getElement, toggleMark } from ".";
+import { toggleMark } from ".";
 import { Command, CommandParams, EtalsTextKeys } from "../types";
 import { ReactEditor } from "slate-react";
 import { hasMarkValue } from "./queries";

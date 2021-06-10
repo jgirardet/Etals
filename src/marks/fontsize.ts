@@ -22,7 +22,9 @@ const getChangeFontSize =
     if (actual) {
       newFontSize = fontsize(actual)[sens]();
     } else {
-      const node = EtalsEditor.getElement(editor);
+      const res = EtalsEditor.getElement(editor);
+      if (!res) return;
+      const [node, _] = res;
       if (node) {
         const res = EtalsEditor.getFormatValue(editor, node, "fontSize");
         if (res) {
@@ -49,6 +51,8 @@ const decreaseFontsizeAction = (_config: Config) => {
     hotkeys: [{ layout: "base", hotkey: "mod+-" }],
   };
 };
+
+//------------------------- plugin -------------------------//
 
 export const etalsFontSize = setValueMarkFactoryPlugin({
   mark: MARK_FONT_SIZE,

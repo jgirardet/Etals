@@ -38,7 +38,7 @@ export const styleMarkFactoryPlugin = ({
   actions,
 }: ToggleMarkFactoryPlugin): EtalsPlugin => {
   const _actions: Configurable<PluginAction>[] = actions || [
-    (config: Config) => {
+    (_config: Config) => {
       return {
         name: mark,
         command: getToggleMarkCommand(mark),
@@ -49,8 +49,9 @@ export const styleMarkFactoryPlugin = ({
 
   return (config: Config) => {
     return {
-      mark,
-      renderLeaf: getStyleMarkRenderLeaf(mark, style),
+      kind: "mark",
+      key: mark,
+      render: getStyleMarkRenderLeaf(mark, style),
       actions: [..._actions.map((x) => x(config))],
     };
   };
@@ -77,8 +78,9 @@ export const setValueMarkFactoryPlugin = ({
 
   return (config: Config) => {
     return {
-      mark: mark,
-      renderLeaf: getValueMarkRenderLeaf(mark, style),
+      kind: "mark",
+      key: mark,
+      render: getValueMarkRenderLeaf(mark, style),
       actions: [setMarkAction, ...actions.map((x) => x(config))],
     };
   };

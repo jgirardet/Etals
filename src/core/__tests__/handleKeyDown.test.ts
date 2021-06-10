@@ -21,7 +21,17 @@ describe("checkHotKey", () => {
       },
       {
         tomatch: "mod+A",
-        event: { key: "A", ctrlKey: true, shiftKey: false, altKey: false },
+        event: { key: "A", ctrlKey: true, shiftKey: true, altKey: false },
+        res: true,
+      },
+      {
+        tomatch: "mod+shift+A",
+        event: { key: "A", ctrlKey: true, shiftKey: true, altKey: false },
+        res: true,
+      },
+      {
+        tomatch: "mod+shift+a",
+        event: { key: "A", ctrlKey: true, shiftKey: true, altKey: false },
         res: true,
       },
       {
@@ -50,6 +60,16 @@ describe("checkHotKey", () => {
         res: true,
       },
       {
+        tomatch: "mod++",
+        event: { key: "+", ctrlKey: true, shiftKey: true, altKey: false },
+        res: true,
+      },
+      {
+        tomatch: "mod+shift+",
+        event: { key: "+", ctrlKey: true, shiftKey: true, altKey: false },
+        res: true,
+      },
+      {
         tomatch: "Enter",
         event: { key: "Enter", ctrlKey: false, shiftKey: false, altKey: false },
         res: true,
@@ -66,6 +86,7 @@ describe("checkHotKey", () => {
       },
     ];
     cases.forEach((el) => {
+      console.log(el);
       expect(checkHotkey(el.tomatch, el.event as React.KeyboardEvent)).equal(
         el.res
       );

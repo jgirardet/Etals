@@ -1,15 +1,39 @@
 import { createEditor, Element, Node, Path, Text } from "slate";
-import { EditorPlugin, FormatKeys, FormatProperties } from "../types";
+import {
+  EditorPlugin,
+  EtalsPlugin,
+  FormatKeys,
+  FormatProperties,
+} from "../types";
 
 import { BaseEditor, Editor } from "slate";
 import { Config } from "../types";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
+import {
+  getHandleKeyDown,
+  getLayouts,
+  getRenderElement,
+  getRenderLeaf,
+} from ".";
 
 /*
 mixEditor: create Slate Editor from specified plugins
 */
 export const mixEditor = (editors: EditorPlugin[]) => {
   return editors.reduce((prev, next) => next(prev), createEditor());
+};
+
+export const initializePlugins = (
+  disabledPlugins: EtalsPlugin[],
+  config: Config
+) => {
+  const plugins = disabledPlugins.map((x) => x(config));
+  const renderElement = getRenderElement(plugins, config.formats);
+  const renderLeaf = getRenderLeaf(plugins);
+  const layouts = getLayouts(plugins);
+  const onKeyDown = getHandleKeyDown(layouts, "bépo");
+
+  return { renderLeaf, renderElement, onKeyDown };
 };
 
 export interface EtalsEditor extends BaseEditor {

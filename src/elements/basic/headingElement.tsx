@@ -8,11 +8,15 @@ import {
   Config,
   ConfigurablePluginAction,
   EtalsElement,
+  EtalsPlugin,
   FormatKeys,
   Formats,
+  RenderElement,
 } from "../../types";
 import { newParagraph, toParagraph } from "./paragrapheElement";
 import { Element } from "slate";
+
+//------------------------- types -------------------------//
 
 export const HeadingName = "heading";
 
@@ -25,13 +29,37 @@ export interface HeadingElement extends EtalsElement {
   level: HeadingLevel;
 }
 
-interface HeadingProps extends RenderElementProps {
+export interface HeadingProps extends RenderElementProps {
   element: HeadingElement;
 }
 
+//------------------------- plugin -------------------------//
+
+export const etalsHeading: EtalsPlugin = (config: Config) => {
+  return {
+    kind: "element",
+    key: HeadingName,
+    render: getHeadingRender(config.formats),
+    actions: [CycleHeadingAction(config), clearHeadingAction(config)],
+  };
+};
+
+//------------------------- utils -------------------------//
+
+export const toHeading = (el: Element, level: HeadingLevel): HeadingElement => {
+  return {
+    type: "heading",
+    level: level,
+    children: el.children,
+  };
+};
+
+//------------------------- render -------------------------//
+
 const getHeadingRender =
-  (formats: Formats) =>
-  ({ element, children, attributes }: HeadingProps) => {
+  (formats: Formats): RenderElement =>
+  ({ element, children, attributes }) => {
+    element = element as HeadingElement;
     const header = "h" + element.level;
     const style = formats[header as FormatKeys];
 
@@ -41,6 +69,8 @@ const getHeadingRender =
       children
     );
   };
+
+//------------------------- actions/commands -------------------------//
 
 const cycleHeaderCommand: Command = ({ editor }) => {
   const res = EtalsEditor.getElement(editor);
@@ -86,21 +116,5 @@ const clearHeadingAction: ConfigurablePluginAction = (_config: Config) => {
     name: "clearHeading",
     command: clearHeading,
     hotkeys: [{ layout: "base", hotkey: "Enter" }],
-  };
-};
-
-export const etalsHeading = (config: Config) => {
-  return {
-    type: HeadingName,
-    renderElement: getHeadingRender(config.formats),
-    actions: [CycleHeadingAction(config), clearHeadingAction(config)],
-  };
-};
-
-export const toHeading = (el: Element, level: HeadingLevel): HeadingElement => {
-  return {
-    type: "heading",
-    level: level,
-    children: el.children,
   };
 };

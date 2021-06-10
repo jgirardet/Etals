@@ -1,6 +1,6 @@
-import { BaseElement, Editor } from "slate";
+import { Editor } from "slate";
 import { RenderElementProps, RenderLeafProps } from "slate-react";
-import { EtalsTextKeys, TText } from "./customs";
+import { EtalsElementTypes, EtalsTextKeys, TText } from "./customs";
 import React from "react";
 
 export interface Action {
@@ -33,20 +33,28 @@ export interface EtalsElement {
   children: TText[];
 }
 
-export type EtalsElementPlugin = (config: Config) => EtalsElementPluginContent;
-
-export interface EtalsElementPluginContent {
-  type: string;
-  renderElement: RenderElement;
-  actions?: PluginAction[];
-}
+export type EtalsPluginKind = "mark" | "element";
 
 export type EtalsPlugin = (config: Config) => EtalsPluginContent;
 
 export interface EtalsPluginContent {
-  mark: EtalsTextKeys;
-  renderLeaf?: RenderLeaf;
+  kind: EtalsPluginKind;
+  key: EtalsTextKeys | EtalsElementTypes;
+  render: RenderLeaf | RenderElement;
   actions: PluginAction[];
+}
+
+export interface EtalsMarkPluginContent extends EtalsPluginContent {
+  kind: "mark";
+  key: EtalsTextKeys;
+  render: RenderLeaf;
+}
+
+export interface EtalsElementPluginContent<T extends RenderElementProps>
+  extends EtalsPluginContent {
+  kind: "element";
+  key: EtalsElementTypes;
+  render: RenderElement;
 }
 
 export type FormatProperties = Pick<

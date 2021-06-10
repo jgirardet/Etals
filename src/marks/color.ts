@@ -1,12 +1,16 @@
 import { Editor } from "slate";
 import { getSetMarkValueCommand, setValueMarkFactoryPlugin } from "../core";
-import { CommandParams, Config, PluginAction } from "../types";
+import { CommandParams, Config } from "../types";
+
+//------------------------- types -------------------------//
 
 export const MARK_COLOR = "color";
 
 export type ColorText = {
   [MARK_COLOR]: string;
 };
+
+//------------------------- actions/commands -------------------------//
 
 const setPrimaryColorAction = (_config: Config) => {
   return {
@@ -49,6 +53,9 @@ const clearColorAction = (_config: Config) => {
     ],
   };
 };
+
+//------------------------- plugin -------------------------//
+
 export const etalsColor = setValueMarkFactoryPlugin({
   mark: MARK_COLOR,
   actions: [
