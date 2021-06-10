@@ -1,12 +1,12 @@
 import React, { CSSProperties } from "react";
 import { RenderLeafProps } from "slate-react";
-import { EtalsTextKeys, EtalsPlugin } from "../types";
+import { EtalsTextKeys, EtalsPluginContent } from "../types";
 
 /*
 getRenderLeaf
 Component to handle every leaf render from plugins
 */
-export const getRenderLeaf = (plugins: EtalsPlugin[]) => {
+export const getRenderLeaf = (plugins: EtalsPluginContent[]) => {
   return (props: RenderLeafProps) => {
     const Leafed = plugins.reduce((prev, next) => {
       const children = next.renderLeaf ? next.renderLeaf(prev) : prev.children;
@@ -25,7 +25,7 @@ Leaf Factory which only update `style` attribute
 */
 export const getStyleMarkRenderLeaf =
   (key: EtalsTextKeys, style: CSSProperties) =>
-  ({ leaf, attributes, children }: RenderLeafProps) => {
+  ({ leaf, attributes, children, text }: RenderLeafProps) => {
     if (leaf[key]) {
       return (
         <span {...attributes} style={style}>

@@ -1,7 +1,12 @@
 import { Editor } from "slate";
 import { fontsize } from "../api/fontSize";
-import { setValueMarkFactoryPlugin, toggleMark } from "../core";
-import { CommandParams, PluginAction } from "../types";
+import {
+  EtalsEditor,
+  getMark,
+  setValueMarkFactoryPlugin,
+  toggleMark,
+} from "../core";
+import { CommandParams, Config, TEDITOR } from "../types";
 
 export const MARK_FONT_SIZE = "fontSize";
 
@@ -12,40 +17,40 @@ export type FontSizeText = {
 const getChangeFontSize =
   (sens: "increase" | "decrease") =>
   ({ editor }: CommandParams) => {
-    const marks = Editor.marks(editor);
-    if (marks) {
-      const actual = marks["fontSize"];
-      if (actual) {
-        const newFontSize = fontsize(actual)[sens]();
-        toggleMark(editor, MARK_FONT_SIZE, newFontSize.fontSize?.toString());
+    const actual = getMark(editor, MARK_FONT_SIZE);
+    let newFontSize;
+    if (actual) {
+      newFontSize = fontsize(actual)[sens]();
+    } else {
+      const node = EtalsEditor.getElement(editor);
+      if (node) {
+        const res = EtalsEditor.getFormatValue(editor, node, "fontSize");
+        if (res) {
+          newFontSize = fontsize(res as string)[sens]();
+        }
       }
     }
+    if (newFontSize)
+      toggleMark(editor, MARK_FONT_SIZE, newFontSize.fontSize!.toString());
   };
 
-const increaseFontsizeAction: PluginAction = {
-  name: "increaseFontSize",
-  command: getChangeFontSize("increase"),
-  hotkeys: [{ layout: "base", hotkey: "mod++" }],
+const increaseFontsizeAction = (_config: Config) => {
+  return {
+    name: "increaseFontSize",
+    command: getChangeFontSize("increase"),
+    hotkeys: [{ layout: "base", hotkey: "mod++" }],
+  };
 };
 
-const decreaseFontsizeAction: PluginAction = {
-  name: "decreaseFontSize",
-  command: getChangeFontSize("decrease"),
-  hotkeys: [{ layout: "base", hotkey: "mod+-" }],
+const decreaseFontsizeAction = (_config: Config) => {
+  return {
+    name: "decreaseFontSize",
+    command: getChangeFontSize("decrease"),
+    hotkeys: [{ layout: "base", hotkey: "mod+-" }],
+  };
 };
 
-const _etalsFontSize = setValueMarkFactoryPlugin({
+export const etalsFontSize = setValueMarkFactoryPlugin({
   mark: MARK_FONT_SIZE,
-  hotkeys: [],
+  actions: [increaseFontsizeAction, decreaseFontsizeAction],
 });
-
-const actions = [
-  ..._etalsFontSize.actions,
-  increaseFontsizeAction,
-  decreaseFontsizeAction,
-];
-
-export const etalsFontSize = {
-  ..._etalsFontSize,
-  actions,
-};

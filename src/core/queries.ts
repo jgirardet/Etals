@@ -1,11 +1,14 @@
 import { Editor } from "slate";
 import { EtalsTextKeys } from "../types";
-import { Node, Element } from "slate";
 
-// export const isMarkActive = (editor: Editor, type: EtalsTextKeys): boolean => {
-//   const marks = Editor.marks(editor);
-//   return marks ? !!marks[type] : false;
-// };
+export const getMark = (editor: Editor, mark: EtalsTextKeys): any => {
+  const marks = Editor.marks(editor);
+  if (marks) {
+    if (mark in marks) {
+      return marks[mark];
+    }
+  }
+};
 
 /*
 hasMarkValue

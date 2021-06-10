@@ -6,7 +6,7 @@ import React from "react";
 export interface Action {
   name: ActionName;
   command: Command;
-  hotkey?: Hotkey;
+  hotkey?: PluginHotkey;
 }
 
 export type ActionName = string;
@@ -20,18 +20,50 @@ export interface CommandParams {
   options?: any;
 }
 
+export interface Config {
+  formats: Formats;
+}
+
+export type Configurable<T> = (config: Config) => T;
+
+export type ConfigurablePluginAction = Configurable<PluginAction>;
+
 export interface EtalsElement {
   type: string;
   children: TText[];
 }
 
-export interface EtalsPlugin {
-  key: EtalsTextKeys;
+export type EtalsElementPlugin = (config: Config) => EtalsElementPluginContent;
+
+export interface EtalsElementPluginContent {
+  type: string;
+  renderElement: RenderElement;
+  actions?: PluginAction[];
+}
+
+export type EtalsPlugin = (config: Config) => EtalsPluginContent;
+
+export interface EtalsPluginContent {
+  mark: EtalsTextKeys;
   renderLeaf?: RenderLeaf;
   actions: PluginAction[];
 }
 
-export type Formats = Record<string, React.CSSProperties>;
+export type FormatProperties = Pick<
+  React.CSSProperties,
+  | "fontSize"
+  | "textDecorationLine"
+  | "textDecorationStyle"
+  | "textDecorationColor"
+  | "color"
+  | "textTransform"
+  | "fontWeight"
+  | "fontFamily"
+>;
+
+export type FormatKeys = "h1" | "h2" | "h3" | "h4" | "default";
+
+export type Formats = Record<FormatKeys, FormatProperties>;
 
 export type Hotkey = string;
 
@@ -43,13 +75,14 @@ export type LayoutName = string;
 
 export type Layouts = Record<LayoutName, Layout>;
 
-export interface PluginAction extends Action {
+export interface PluginAction extends Omit<Action, "hotkey"> {
   hotkeys?: PluginHotkey[];
 }
 
 export interface PluginHotkey {
   layout: LayoutName;
   hotkey: Hotkey;
+  block?: boolean;
 }
 
 export type RenderLeaf = (props: RenderLeafProps) => JSX.Element;

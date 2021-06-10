@@ -6,30 +6,34 @@ import { Etals } from "./etals";
 const initialv = [
   {
     type: "paragraph",
-    children: [{ text: "aa", fontSize: "1.2em" }],
+    children: [{ text: "aa", fontSize: "1.2rem" }],
   },
   {
     type: "paragraph",
     children: [
-      { text: " bold", bold: true, fontSize: "1.2em" },
-      { text: " italic", italic: true, fontSize: "1.2em" },
-      { text: " underline", underline: true, fontSize: "1.2em" },
+      { text: " bold", bold: true, fontSize: "1.2rem" },
+      { text: " italic", italic: true, fontSize: "1.2rem" },
+      {
+        text: " underline",
+        textDecorationLine__underline: true,
+        fontSize: "1.2rem",
+      },
       { text: " subscript", subsuperscript: "sub" },
       { text: " superscript", subsuperscript: "super" },
       {
         text: " italic, bold, underline ",
         bold: true,
         italic: true,
-        underline: true,
-        fontSize: "1.2em",
+        textDecorationLine__underline: true,
+        fontSize: "1.2rem",
       },
     ],
   },
   {
     type: "paragraph",
     children: [
-      { text: " la 1 em", fontSize: "1em" },
-      { text: " la 2 em", fontSize: "2em" },
+      { text: " la 1 rem", fontSize: "1rem" },
+      { text: " la 2 rem", fontSize: "2rem" },
     ],
   },
   {
@@ -57,7 +61,7 @@ const initialv = [
   {
     type: "heading",
     level: 3,
-    children: [{ text: " le h3" }],
+    children: [{ text: " le h 3" }],
   },
   {
     type: "heading",

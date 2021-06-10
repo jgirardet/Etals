@@ -1,7 +1,7 @@
 import React from "react";
 
 import { RenderElementProps } from "slate-react";
-import { EtalsElementPlugin, Formats, RenderElement } from "../types";
+import { EtalsElementPluginContent, Formats, RenderElement } from "../types";
 
 export const getRenderDefault =
   (formats: Formats): RenderElement =>
@@ -19,7 +19,7 @@ getRenderElement
 handle every elements
 */
 export const getRenderElement = (
-  plugins: EtalsElementPlugin[],
+  plugins: EtalsElementPluginContent[],
   formats: Formats
 ) => {
   return (props: RenderElementProps) => {

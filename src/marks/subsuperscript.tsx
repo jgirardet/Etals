@@ -1,7 +1,12 @@
 import React from "react";
 import { RenderLeafProps } from "slate-react";
 import { getToggleMarkValueCommands } from "../core";
-import { EtalsPlugin, PluginAction } from "../types";
+import {
+  Config,
+  EtalsPlugin,
+  EtalsPluginContent,
+  PluginAction,
+} from "../types";
 import { Node } from "slate";
 
 export const MARK_SUB_SUPERSCRIPT = "subsuperscript";
@@ -27,8 +32,6 @@ export const superscriptAction: PluginAction = {
 
 const subSuperscriptRenderLeaf = (props: RenderLeafProps) => {
   const val = props.leaf[MARK_SUB_SUPERSCRIPT];
-  // const [an, b] = [...Node.nodes(props.leaf)];
-  // console.log([...Node.elements(props.leaf)]);
   if (val) {
     const style =
       val === "sub"
@@ -40,7 +43,6 @@ const subSuperscriptRenderLeaf = (props: RenderLeafProps) => {
       <span
         {...props.attributes}
         style={{
-          //verticalAlign: val,
           ...style,
           fontSize: "75%",
           lineHeight: 0,
@@ -53,24 +55,10 @@ const subSuperscriptRenderLeaf = (props: RenderLeafProps) => {
   } else return props.children;
 };
 
-export const etalsSubSuperscript: EtalsPlugin = {
-  key: MARK_SUB_SUPERSCRIPT,
-  renderLeaf: subSuperscriptRenderLeaf,
-  actions: [subscriptAction, superscriptAction],
+export const etalsSubSuperscript = (_config: Config): EtalsPluginContent => {
+  return {
+    mark: MARK_SUB_SUPERSCRIPT,
+    renderLeaf: subSuperscriptRenderLeaf,
+    actions: [subscriptAction, superscriptAction],
+  };
 };
-
-// sub,
-// sup {
-//   font-size: 75%;
-//   line-height: 0;
-//   position: relative;
-//   vertical-align: baseline;
-// }
-
-// sub {
-//   bottom: -0.25em;
-// }
-
-// sup {
-//   top: -0.5em;
-// }

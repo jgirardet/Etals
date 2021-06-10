@@ -1,11 +1,11 @@
 import { styleMarkFactoryPlugin } from "../core";
 
-export const MARK_UNDERLINE = "underline";
+export const MARK_UNDERLINE = "textDecorationLine__underline";
 
 export type UnderlineText = { [MARK_UNDERLINE]: boolean };
 
 export const etalsUnderline = styleMarkFactoryPlugin({
-  key: MARK_UNDERLINE,
+  mark: MARK_UNDERLINE,
   style: {
     textDecorationLine: "underline",
   },

@@ -17,7 +17,9 @@ import {
   ColorText,
 } from "../marks";
 
-export type TEDITOR = BaseEditor & ReactEditor & HistoryEditor;
+import { EtalsEditor } from "../core";
+
+export type TEDITOR = BaseEditor & ReactEditor & HistoryEditor & EtalsEditor;
 
 export type TElement = ParagraphElement | HeadingElement;
 
@@ -27,7 +29,7 @@ export type EtalsText = BoldText &
   StrikethroughText &
   SubSuperscriptText &
   FontSizeText &
-  ColorText
+  ColorText;
 
 export type EtalsTextKeys = keyof EtalsText;
 export type EtalsElementTypes = ParagraphType | HeadingType;

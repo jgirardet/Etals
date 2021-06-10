@@ -6,42 +6,62 @@ describe("checkHotKey", () => {
     const cases = [
       {
         tomatch: "mod+a",
-        event: { key: "a", ctrlKey: true, altKey: false },
+        event: { key: "a", ctrlKey: true, shiftKey: false, altKey: false },
         res: true,
       },
       {
         tomatch: "mod+a+",
-        event: { key: "a", ctrlKey: true, altKey: false },
+        event: { key: "a", ctrlKey: true, shiftKey: false, altKey: false },
         res: false,
       },
       {
         tomatch: "mod+A",
-        event: { key: "a", ctrlKey: true, altKey: false },
+        event: { key: "a", ctrlKey: true, shiftKey: false, altKey: false },
         res: false,
       },
       {
         tomatch: "mod+A",
-        event: { key: "A", ctrlKey: true, altKey: false },
+        event: { key: "A", ctrlKey: true, shiftKey: false, altKey: false },
         res: true,
       },
       {
         tomatch: "mod+alt+a",
-        event: { key: "a", ctrlKey: true, altKey: true },
+        event: { key: "a", ctrlKey: true, shiftKey: false, altKey: true },
         res: true,
       },
       {
         tomatch: "mod+alt+a",
-        event: { key: "a", ctrlKey: true, altKey: false },
+        event: { key: "a", ctrlKey: true, shiftKey: false, altKey: false },
         res: false,
       },
       {
         tomatch: "mod+alt+",
-        event: { key: "+", ctrlKey: true, altKey: true },
+        event: { key: "+", ctrlKey: true, shiftKey: false, altKey: true },
         res: true,
       },
       {
         tomatch: "mod++",
-        event: { key: "+", ctrlKey: true, altKey: false },
+        event: { key: "+", ctrlKey: true, shiftKey: false, altKey: false },
+        res: true,
+      },
+      {
+        tomatch: "+",
+        event: { key: "+", ctrlKey: false, shiftKey: false, altKey: false },
+        res: true,
+      },
+      {
+        tomatch: "Enter",
+        event: { key: "Enter", ctrlKey: false, shiftKey: false, altKey: false },
+        res: true,
+      },
+      {
+        tomatch: "Enter",
+        event: { key: "Enter", ctrlKey: false, shiftKey: true, altKey: false },
+        res: false,
+      },
+      {
+        tomatch: "shift+Enter",
+        event: { key: "Enter", ctrlKey: false, shiftKey: true, altKey: false },
         res: true,
       },
     ];

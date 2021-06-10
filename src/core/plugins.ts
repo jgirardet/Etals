@@ -6,26 +6,25 @@ import {
   PluginHotkey,
   PluginAction,
   CommandParams,
+  Config,
+  Configurable,
 } from "../types";
-import Editor from "slate";
 
 import capitalize from "capitalize";
-import { RenderLeafProps } from "slate-react";
 import { getValueMarkRenderLeaf } from "./renderLeaf";
-import { getSetMarkValueCommand } from "./commands";
 
-export interface StyleMarkFactoryPlugin {
-  key: EtalsTextKeys;
-  style: CSSProperties;
-  hotkeys?: PluginHotkey[];
-  actions?: PluginAction[];
-}
-
-export interface ValueMarkFactoryPlugin {
+export interface FactoryPluginInterface {
   mark: EtalsTextKeys;
+  actions: Configurable<PluginAction>[];
   style?: keyof CSSProperties;
   hotkeys?: PluginHotkey[];
-  actions?: PluginAction[];
+}
+
+export interface ToggleMarkFactoryPlugin {
+  mark: EtalsTextKeys;
+  actions?: Configurable<PluginAction>[];
+  style: React.CSSProperties;
+  hotkeys?: PluginHotkey[];
 }
 
 /*
@@ -33,23 +32,27 @@ styleMarkFactoryPlugin
 build a simple style plugin
 */
 export const styleMarkFactoryPlugin = ({
-  key,
+  mark,
   style,
   hotkeys,
   actions,
-}: StyleMarkFactoryPlugin): EtalsPlugin => {
-  const _actions = actions || [
-    {
-      name: key,
-      command: getToggleMarkCommand(key),
-      hotkeys: hotkeys,
+}: ToggleMarkFactoryPlugin): EtalsPlugin => {
+  const _actions: Configurable<PluginAction>[] = actions || [
+    (config: Config) => {
+      return {
+        name: mark,
+        command: getToggleMarkCommand(mark),
+        hotkeys: hotkeys,
+      };
     },
   ];
 
-  return {
-    key: key,
-    renderLeaf: getStyleMarkRenderLeaf(key, style),
-    actions: _actions,
+  return (config: Config) => {
+    return {
+      mark,
+      renderLeaf: getStyleMarkRenderLeaf(mark, style),
+      actions: [..._actions.map((x) => x(config))],
+    };
   };
 };
 
@@ -61,7 +64,8 @@ export const setValueMarkFactoryPlugin = ({
   mark,
   style,
   hotkeys,
-}: ValueMarkFactoryPlugin): EtalsPlugin => {
+  actions,
+}: FactoryPluginInterface): EtalsPlugin => {
   const setMarkCommand = ({ editor, options }: CommandParams) => {
     toggleMark(editor, mark, options);
   };
@@ -71,9 +75,11 @@ export const setValueMarkFactoryPlugin = ({
     hotkeys: hotkeys,
   };
 
-  return {
-    key: mark,
-    renderLeaf: getValueMarkRenderLeaf(mark, style),
-    actions: [setMarkAction],
+  return (config: Config) => {
+    return {
+      mark: mark,
+      renderLeaf: getValueMarkRenderLeaf(mark, style),
+      actions: [setMarkAction, ...actions.map((x) => x(config))],
+    };
   };
 };

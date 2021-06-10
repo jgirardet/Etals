@@ -3,7 +3,7 @@ import React, { Children } from "react";
 import { Descendant } from "slate";
 import { withReact } from "slate-react";
 
-import { Etals } from "..";
+import { EtalsBase } from "..";
 import {
   MARK_BOLD,
   MARK_ITALIC,
@@ -34,7 +34,7 @@ const marked = [
 
 describe("test show marks", () => {
   beforeEach(() => {
-    mount(<Etals initialValue={marked as Descendant[]} />);
+    mount(<EtalsBase initialValue={marked as Descendant[]} />);
   });
   it("should be bold", () => {
     cy.contains(MARK_BOLD).parent().should("have.css", "fontWeight", "700");
@@ -67,7 +67,7 @@ describe("test show marks", () => {
 describe("test keymap", () => {
   beforeEach(() => {
     mount(
-      <Etals
+      <EtalsBase
         initialValue={
           [{ type: "paragraph", children: [{ text: "aa" }] }] as Descendant[]
         }

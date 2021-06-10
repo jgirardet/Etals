@@ -5,7 +5,7 @@ export const MARK_ITALIC = "italic";
 export type ItalicText = { [MARK_ITALIC]: boolean };
 
 export const etalsItalic = styleMarkFactoryPlugin({
-  key: MARK_ITALIC,
+  mark: MARK_ITALIC,
   style: { fontStyle: "italic" },
   hotkeys: [{ layout: "base", hotkey: "mod+i" }],
 });

@@ -1,5 +1,9 @@
-import { createEditor } from "slate";
-import { EditorPlugin } from "../types";
+import { createEditor, Element, Node, Path, Text } from "slate";
+import { EditorPlugin, FormatKeys, FormatProperties } from "../types";
+
+import { BaseEditor, Editor } from "slate";
+import { Config } from "../types";
+import { CSSProperties } from "react";
 
 /*
 mixEditor: create Slate Editor from specified plugins
@@ -7,3 +11,56 @@ mixEditor: create Slate Editor from specified plugins
 export const mixEditor = (editors: EditorPlugin[]) => {
   return editors.reduce((prev, next) => next(prev), createEditor());
 };
+
+export interface EtalsEditor extends BaseEditor {
+  config: Config;
+  getElement: (editor: EtalsEditor) => Element | undefined;
+  getFormatValue: (
+    editor: Editor,
+    element: Element,
+    key: keyof FormatProperties
+  ) => CSSProperties;
+  // getElementLength: (editor: Editor, element: Element) => number;
+}
+
+export const EtalsEditor = {
+  getElement: (editor: Editor): [Element, Path] | undefined => {
+    if (editor.selection) {
+      const active_path = editor.selection.anchor.path;
+      const nodes = Node.ancestors(editor, active_path);
+      for (const [node, path] of nodes) {
+        if (Element.isElement(node)) {
+          return [node, path];
+        }
+      }
+    }
+  },
+  getFormatValue: (
+    editor: Editor,
+    element: Element,
+    key: keyof FormatProperties
+  ) => {
+    let level: FormatKeys = "default";
+    if (element.type === "heading") {
+      const lev = element.level;
+      level = ("h" + lev.toString()) as FormatKeys;
+    }
+    return editor.config.formats[level][key as keyof FormatProperties];
+  },
+};
+
+// getElementLength: (editor: Editor, element: Element) => {
+//   const res = [...Node.texts(element)];
+
+//   const strings = res.map((x) => x[0].text);
+//   return "".concat(...strings).length;
+// };
+
+export const withEtals =
+  (config: Config) =>
+  <T extends EtalsEditor>(editor: T) => {
+    const e = editor as T & EtalsEditor;
+
+    e.config = config;
+    return e;
+  };

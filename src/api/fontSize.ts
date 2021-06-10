@@ -5,9 +5,9 @@ export const fontsize = (val: string[number]) => new FontSize(val);
 
 Simple Font API
 
-- stores as float and return em
+- stores as float and return rem
 - public `float` getter
-- all methods return {fontSize: XXem} 
+- all methods return {fontSize: XXrem} 
 
 */
 
@@ -36,10 +36,10 @@ export class FontSize {
     return FontSize.fromFloat(this._float * x).toStyle();
   }
 
-  public static fromEm(em: string | number): FontSize {
-    if (typeof em === "string")
-      return new FontSize("fontSize__" + em.trim().replace("em", ""));
-    else return FontSize.fromFloat(em);
+  public static fromRem(rem: string | number): FontSize {
+    if (typeof rem === "string")
+      return new FontSize("fontSize__" + rem.trim().replace("rem", ""));
+    else return FontSize.fromFloat(rem);
   }
 
   public static fromFloat(float: number): FontSize {
@@ -49,11 +49,11 @@ export class FontSize {
   /* ---------- Private ------------- */
 
   private parseStyle(val: string | number): number {
-    return parseFloat(val.toString().replace("em", ""));
+    return parseFloat(val.toString().replace("rem", ""));
   }
 
   private _toStyle(val: number): React.CSSProperties {
-    return { fontSize: val.toFixed(1) + "em" };
+    return { fontSize: val.toFixed(1) + "rem" };
   }
 
   private getStep() {
