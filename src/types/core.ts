@@ -33,14 +33,14 @@ export interface EtalsElement {
   children: TText[];
 }
 
-export type EtalsPluginKind = "mark" | "element";
+export type EtalsPluginKind = "mark" | "element" | "action";
 
 export type EtalsPlugin = (config: Config) => EtalsPluginContent;
 
 export interface EtalsPluginContent {
   kind: EtalsPluginKind;
-  key: EtalsTextKeys | EtalsElementTypes;
-  render: RenderLeaf | RenderElement;
+  key?: EtalsTextKeys | EtalsElementTypes;
+  render?: RenderLeaf | RenderElement;
   actions: PluginAction[];
 }
 
@@ -50,11 +50,16 @@ export interface EtalsMarkPluginContent extends EtalsPluginContent {
   render: RenderLeaf;
 }
 
-export interface EtalsElementPluginContent<T extends RenderElementProps>
-  extends EtalsPluginContent {
+export interface EtalsElementPluginContent extends EtalsPluginContent {
   kind: "element";
   key: EtalsElementTypes;
   render: RenderElement;
+}
+
+export interface EtalsActionPluginContent extends EtalsPluginContent {
+  kind: "action";
+  render?: undefined;
+  key?: undefined;
 }
 
 export type FormatProperties = Pick<

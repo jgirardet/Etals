@@ -12,6 +12,7 @@ import {
   etalsSubSuperscript,
   etalsFontSize,
   etalsColor,
+  etalsClearMarks,
 } from "../marks";
 import { Config, EtalsPlugin } from "../types";
 import { defaultFormats } from "../defaults";
@@ -63,6 +64,7 @@ export const Etals = ({ initialValue }: Pick<EtalsProps, "initialValue">) => {
     etalsSubSuperscript,
     etalsFontSize,
     etalsColor,
+    etalsClearMarks,
     ...elementPlugins,
   ];
   return <EtalsBase initialValue={initialValue} etalsPlugins={plugins} />;
